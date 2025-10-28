@@ -7,7 +7,6 @@ const cloudIcon = document.getElementById("cloud-upload");
 const buttons = document.getElementById("convert-group");
 const cancelButton = document.getElementById("cancel");
 const addButton = document.getElementById("add");
-const fileContent = document.getElementById("file-content");
 const convertButton = document.getElementById("convert");
 
 // reset to first state
@@ -33,7 +32,7 @@ fileInput.addEventListener("change", (event) => {
           
             <div
       class="bg-white flex flex-row justify-center items-center gap-30 px-6 py-5 rounded-lg border-2 border-yellow-900 
-      transition-all duration-300"
+      hover:bg-slate-100 active:bg-slate-200 transition-all duration-150"
       id="file-content"
     >
       <div class="flex flex-row justify-center items-center gap-3">
@@ -68,13 +67,22 @@ fileInput.addEventListener("change", (event) => {
     convertButton.classList.remove("hidden");
     addButton.classList.add("hidden");
 
+    // [Open File Event]
+    const fileContent = document.getElementById("file-content");
+    fileContent.addEventListener("click",()=>{
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    })
+
     lucide.createIcons();
 
     // [Cancel Event]
     const trashBtn = document.getElementById("trash-btn");
-    trashBtn.addEventListener("click", () => {
+    trashBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
       resetUploadBox();
     });
+
   }
 });
 
@@ -95,8 +103,8 @@ convertButton.addEventListener("click", () => {
 
   // 1. add progress bar
   const progressBarHTML = `
-<div class="w-64 h-3 bg-slate-200 rounded relative" id="progress-container">
-  <div id="progress-bar" class="h-full w-0 bg-green-400 rounded transition-all"></div>
+<div class="w-64 h-3 bg-[#D9D9D9] rounded relative" id="progress-container">
+  <div id="progress-bar" class="h-full w-0 bg-[#98B893] rounded transition-all"></div>
   <span id="progress-text" class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-semibold text-white">0%</span>
 </div>`;
   fileText.insertAdjacentHTML("beforeend", progressBarHTML);
